@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'org.clevertec'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    implementation 'org.postgresql:postgresql:42.6.0'  // Зависимость для PostgreSQL
+    implementation 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
+    implementation 'javax.servlet:javax.servlet-api:4.0.1' // Зависимость для Servlet API
+}
+
+test {
+    useJUnitPlatform()
+}
