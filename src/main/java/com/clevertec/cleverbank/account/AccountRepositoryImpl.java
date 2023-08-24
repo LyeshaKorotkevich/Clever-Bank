@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRepositoryImpl implements AccountRepository {
-    private Connection connection;
+    private final Connection connection;
 
     public AccountRepositoryImpl(Connection connection) {
         this.connection = connection;

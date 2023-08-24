@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository{
-    private Connection connection;
+    private final Connection connection;
 
     public UserRepositoryImpl(Connection connection) {
         this.connection = connection;

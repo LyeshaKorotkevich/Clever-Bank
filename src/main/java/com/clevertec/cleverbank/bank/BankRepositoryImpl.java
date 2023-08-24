@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BankRepositoryImpl implements BankRepository{
-    private Connection connection;
+    private final Connection connection;
 
     public BankRepositoryImpl(Connection connection) {
         this.connection = connection;

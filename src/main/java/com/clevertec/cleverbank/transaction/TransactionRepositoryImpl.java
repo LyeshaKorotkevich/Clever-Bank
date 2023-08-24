@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionRepositoryImpl implements TransactionRepository{
-    private Connection connection;
+    private final Connection connection;
 
     public TransactionRepositoryImpl(Connection connection) {
         this.connection = connection;
