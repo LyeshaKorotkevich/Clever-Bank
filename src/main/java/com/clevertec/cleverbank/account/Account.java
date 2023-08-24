@@ -3,6 +3,7 @@ package com.clevertec.cleverbank.account;
 import com.clevertec.cleverbank.currency.Currency;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -15,12 +16,10 @@ import java.time.LocalDate;
 public class Account {
     private Long id; //ID счета
     private String accountNumber; // номер счета
-    private double balance; // баланс на счету
+    private BigDecimal balance; // баланс на счету
     private Long userId; // ID владельца счета
     private Long bankId; // ID банка
     private LocalDate openingDate; // дата открытия счета
     private Currency currency; // валюта счета
-
-
 }
 

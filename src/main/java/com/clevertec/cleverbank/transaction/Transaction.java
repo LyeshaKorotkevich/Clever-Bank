@@ -2,6 +2,8 @@ package com.clevertec.cleverbank.transaction;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 /**
  * Сущность транзакции
  */
@@ -13,6 +15,5 @@ public class Transaction {
     private Long id; // ID транзакции
     private Long senderAccountId; // ID счета отправителя
     private Long receiverAccountId; // ID счета получателя
-    private double amount; // сумма транзакции
-
+    private BigDecimal amount; // сумма транзакции
 }

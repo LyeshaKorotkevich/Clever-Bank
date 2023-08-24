@@ -1,4 +1,11 @@
 package com.clevertec.cleverbank.transaction;
 
-public class TransactionRepository {
+import java.util.List;
+
+public interface TransactionRepository {
+    void createTransaction(Transaction transaction);
+    Transaction getTransactionById(long transactionId);
+    List<Transaction> getAllTransactions();
+    void updateTransaction(Transaction transaction);
+    void deleteTransaction(long transactionId);
 }

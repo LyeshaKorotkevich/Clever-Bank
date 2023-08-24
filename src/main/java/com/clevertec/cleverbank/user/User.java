@@ -12,7 +12,5 @@ import lombok.*;
 public class User {
     private Long id;// ID пользователя
     private String fullName; // ФИО пользователя
-
-
 }
 

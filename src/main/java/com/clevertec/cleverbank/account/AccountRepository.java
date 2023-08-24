@@ -1,4 +1,11 @@
 package com.clevertec.cleverbank.account;
 
-public class AccountRepository {
+import java.util.List;
+
+public interface AccountRepository {
+    void createAccount(Account account);
+    Account getAccountById(long accountId);
+    List<Account> getAllAccounts();
+    void updateAccount(Account account);
+    void deleteAccount(long accountId);
 }
