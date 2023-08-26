@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class AccountServiceImpl implements AccountService{
     private final AccountRepository accountRepository;
     private final TransactionServiceImpl transactionService;
+    private final Object lock = new Object();
 
 
     public AccountServiceImpl(AccountRepository accountRepository, TransactionServiceImpl transactionService) {
@@ -44,7 +45,24 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public void transfer(long sourceAccountId, long targetAccountId, double amount) {
+    public void transfer(long senderAccountId, long receiverAccountId, BigDecimal amount) {
+        Account senderAccount = accountRepository.getAccountById(senderAccountId);
+        Account receiverAccount = accountRepository.getAccountById(receiverAccountId);
 
+        // Порядок блокировки по id аккаунта
+        Object firstLock = senderAccountId < receiverAccountId ? senderAccount : receiverAccount;
+        Object secondLock = senderAccountId < receiverAccountId ? receiverAccount : senderAccount;
+
+        synchronized (firstLock) {
+            synchronized (secondLock) {
+                if (senderAccount.getBalance().compareTo(amount) >= 0) {
+                    senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
+                    receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
+                    transactionService.createTransaction(TransactionType.TRANSFER, senderAccountId, receiverAccountId, amount);
+                } else {
+                    //throw new InsufficientBalanceException("Insufficient balance");
+                }
+            }
+        }
     }
 }
