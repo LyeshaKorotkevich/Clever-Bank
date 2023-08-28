@@ -1,4 +1,4 @@
-package com.clevertec.cleverbank.account;
+package com.clevertec.cleverbank.service;
 
 import java.math.BigDecimal;
 

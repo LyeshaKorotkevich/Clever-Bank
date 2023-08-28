@@ -1,10 +1,12 @@
-package com.clevertec.cleverbank.transaction;
+package com.clevertec.cleverbank.repository;
+
+import com.clevertec.cleverbank.model.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionRepositoryImpl implements TransactionRepository{
+public class TransactionRepositoryImpl implements TransactionRepository {
     private final Connection connection;
 
     public TransactionRepositoryImpl(Connection connection) {

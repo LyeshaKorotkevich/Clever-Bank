@@ -1,4 +1,4 @@
-package com.clevertec.cleverbank.user;
+package com.clevertec.cleverbank.model;
 
 import lombok.*;
 

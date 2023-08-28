@@ -1,11 +1,12 @@
-package com.clevertec.cleverbank.account;
+package com.clevertec.cleverbank.service;
 
-import com.clevertec.cleverbank.transaction.TransactionServiceImpl;
-import com.clevertec.cleverbank.transaction.TransactionType;
+import com.clevertec.cleverbank.model.Account;
+import com.clevertec.cleverbank.repository.AccountRepository;
+import com.clevertec.cleverbank.model.TransactionType;
 
 import java.math.BigDecimal;
 
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionServiceImpl transactionService;
     private final Object lock = new Object();

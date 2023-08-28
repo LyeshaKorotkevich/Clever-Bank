@@ -1,4 +1,7 @@
-package com.clevertec.cleverbank.transaction;
+package com.clevertec.cleverbank.service;
+
+import com.clevertec.cleverbank.model.Transaction;
+import com.clevertec.cleverbank.model.TransactionType;
 
 import java.math.BigDecimal;
 

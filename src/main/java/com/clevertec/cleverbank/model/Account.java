@@ -1,6 +1,5 @@
-package com.clevertec.cleverbank.account;
+package com.clevertec.cleverbank.model;
 
-import com.clevertec.cleverbank.currency.Currency;
 import lombok.*;
 
 import java.math.BigDecimal;

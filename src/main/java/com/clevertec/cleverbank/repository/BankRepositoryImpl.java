@@ -1,10 +1,12 @@
-package com.clevertec.cleverbank.bank;
+package com.clevertec.cleverbank.repository;
+
+import com.clevertec.cleverbank.model.Bank;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankRepositoryImpl implements BankRepository{
+public class BankRepositoryImpl implements BankRepository {
     private final Connection connection;
 
     public BankRepositoryImpl(Connection connection) {

@@ -1,4 +1,4 @@
-package com.clevertec.cleverbank.currency;
+package com.clevertec.cleverbank.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,12 @@
-package com.clevertec.cleverbank.user;
+package com.clevertec.cleverbank.repository;
+
+import com.clevertec.cleverbank.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
     private final Connection connection;
 
     public UserRepositoryImpl(Connection connection) {
