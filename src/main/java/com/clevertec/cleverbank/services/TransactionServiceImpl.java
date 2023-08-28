@@ -1,8 +1,8 @@
-package com.clevertec.cleverbank.service;
+package com.clevertec.cleverbank.services;
 
-import com.clevertec.cleverbank.model.Transaction;
-import com.clevertec.cleverbank.model.TransactionType;
-import com.clevertec.cleverbank.repository.TransactionRepositoryImpl;
+import com.clevertec.cleverbank.models.Transaction;
+import com.clevertec.cleverbank.models.TransactionType;
+import com.clevertec.cleverbank.repositories.TransactionRepositoryImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.clevertec.cleverbank.model;
+package com.clevertec.cleverbank.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

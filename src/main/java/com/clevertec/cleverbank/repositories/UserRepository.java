@@ -1,6 +1,6 @@
-package com.clevertec.cleverbank.repository;
+package com.clevertec.cleverbank.repositories;
 
-import com.clevertec.cleverbank.model.User;
+import com.clevertec.cleverbank.models.User;
 
 import java.util.List;
 

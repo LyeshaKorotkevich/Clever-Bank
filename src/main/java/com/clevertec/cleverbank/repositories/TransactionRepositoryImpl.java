@@ -1,6 +1,6 @@
-package com.clevertec.cleverbank.repository;
+package com.clevertec.cleverbank.repositories;
 
-import com.clevertec.cleverbank.model.Transaction;
+import com.clevertec.cleverbank.models.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;

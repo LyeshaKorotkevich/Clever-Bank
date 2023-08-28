@@ -22,6 +22,7 @@ dependencies {
     implementation 'javax.servlet:javax.servlet-api:4.0.1' // Зависимость для Servlet API
     compileOnly 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
     annotationProcessor 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0' // Зависимость для SnakeYAML
 }
 
 test {
