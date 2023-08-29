@@ -6,6 +6,9 @@ import com.clevertec.cleverbank.models.TransactionType;
 
 import java.math.BigDecimal;
 
+/**
+ * Реализация интерфейса AccountService для выполнения операций с аккаунтами.
+ */
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionServiceImpl transactionService;

@@ -10,6 +10,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Серви для расчета и начисления процентов на балансы аккаунтов.
+ */
 public class InterestService {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final AccountRepositoryImpl accountRepository;
@@ -20,10 +23,16 @@ public class InterestService {
         this.accountService = accountService;
     }
 
+    /**
+     * Запускает расчет и начисление процентов на балансы аккаунтов каждые 30 секунд.
+     */
     public void startInterestCalculation() {
         scheduler.scheduleAtFixedRate(this::calculateInterest, 0, 30, TimeUnit.SECONDS);
     }
 
+    /**
+     * Выполняет расчет и начисление процентов на балансы аккаунтов.
+     */
     private void calculateInterest() {
 
         List<Account> accounts = accountRepository.getAllAccounts();

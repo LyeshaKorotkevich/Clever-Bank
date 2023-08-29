@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация интерфейса BankRepository для работы с банками в базе данных.
+ */
 public class BankRepositoryImpl implements BankRepository {
     private final Connection connection;
 

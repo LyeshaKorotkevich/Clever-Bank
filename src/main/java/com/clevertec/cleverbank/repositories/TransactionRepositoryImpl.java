@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация интерфейса TransactionRepository для работы с транзакциями в базе данных.
+ */
 public class TransactionRepositoryImpl implements TransactionRepository {
     private final Connection connection;
 

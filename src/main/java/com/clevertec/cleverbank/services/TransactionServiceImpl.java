@@ -7,6 +7,9 @@ import com.clevertec.cleverbank.repositories.TransactionRepositoryImpl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Реализация интерфейса TransactionService для создания транзакций между аккаунтами.
+ */
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepositoryImpl transactionRepository;
 
@@ -15,7 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction createTransaction(TransactionType type, long senderAccountId, long receiverAccountId, BigDecimal amount) {
+    public void createTransaction(TransactionType type, long senderAccountId, long receiverAccountId, BigDecimal amount) {
         Transaction transaction = new Transaction();
         transaction.setTime(LocalDateTime.now());
         transaction.setType(type);
@@ -30,7 +33,5 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAmount(amount);
 
         transactionRepository.createTransaction(transaction);
-
-        return transaction;
     }
 }

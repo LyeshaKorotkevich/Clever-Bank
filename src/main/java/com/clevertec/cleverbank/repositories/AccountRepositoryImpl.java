@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация интерфейса AccountRepository для работы с аккаунтами в базе данных.
+ */
 public class AccountRepositoryImpl implements AccountRepository {
     private final Connection connection;
 

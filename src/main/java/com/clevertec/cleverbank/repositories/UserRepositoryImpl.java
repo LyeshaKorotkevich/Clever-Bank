@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация интерфейса UserRepository для работы с пользователями в базе данных.
+ */
 public class UserRepositoryImpl implements UserRepository {
     private final Connection connection;
 
