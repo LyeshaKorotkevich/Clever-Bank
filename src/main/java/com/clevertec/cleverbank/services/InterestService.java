@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Серви для расчета и начисления процентов на балансы аккаунтов.
  */
 public class InterestService {
-    private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);;
+    private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
     private final AccountRepositoryImpl accountRepository;
     private final AccountServiceImpl accountService;
 
