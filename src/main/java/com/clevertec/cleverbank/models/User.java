@@ -11,6 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 public class User {
     private Long id;// ID пользователя
-    private String fullName; // ФИО пользователя
+    private String surname; // фамилия пользователя
+    private String name; // имя пользователя
+    private String middleName; // отчество пользователя
 }
 
