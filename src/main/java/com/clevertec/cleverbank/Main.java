@@ -8,6 +8,7 @@ import java.sql.Connection;
 public class Main {
     public static void main(String[] args) {
         try (Connection connection = DatabaseConnection.getConnection()) {
+            System.out.println("Добро пожаловать в консольное приложение Clever-Bank!");
             MainMenu menu = new MainMenu(connection);
             menu.pushMenu(menu);
             menu.start();

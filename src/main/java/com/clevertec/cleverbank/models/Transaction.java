@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Сущность транзакции
  */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
     private Long id; // ID транзакции
@@ -19,4 +17,8 @@ public class Transaction {
     private Long receiverAccountId; // ID счета получателя
     private BigDecimal amount; // сумма транзакции
     private TransactionType type; // вид транзакции
+
+    public Transaction() {
+        this.time = LocalDateTime.now();
+    }
 }

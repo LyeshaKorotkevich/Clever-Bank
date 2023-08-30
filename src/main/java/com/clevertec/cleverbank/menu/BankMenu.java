@@ -5,15 +5,16 @@ import com.clevertec.cleverbank.repositories.BankRepositoryImpl;
 
 public class BankMenu extends Menu{
     private final BankRepositoryImpl bankRepository;
-    private final static String BANK_MENU = "---------------------------------------\n" +
-                                            "1: создать новый банк\n" +
-                                            "2: список всех банков\n" +
-                                            "3: информация о банке\n" +
-                                            "4: обновить информацию о банке\n" +
-                                            "5: удалить банк\n" +
-                                            "6: вернуться назад\n" +
-                                            "7: выйти\n" +
-                                            "---------------------------------------";
+    private final static String BANK_MENU = """
+            ---------------------------------------
+            1: создать новый банк
+            2: список всех банков
+            3: информация о банке
+            4: обновить информацию о банке
+            5: удалить банк
+            6: вернуться назад
+            7: выйти
+            ---------------------------------------""";
 
     public BankMenu(BankRepositoryImpl bankRepository) {
         this.bankRepository = bankRepository;

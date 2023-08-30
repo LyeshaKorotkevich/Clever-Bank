@@ -5,15 +5,16 @@ import com.clevertec.cleverbank.repositories.UserRepositoryImpl;
 
 public class UserMenu extends Menu{
     private final UserRepositoryImpl userRepository;
-    private final static String USER_MENU = "---------------------------------------\n" +
-                                            "1: создать нового пользователя\n" +
-                                            "2: список всех пользователей\n" +
-                                            "3: определенный пользователь\n" +
-                                            "4: обновить информацию о пользователе\n" +
-                                            "5: удалить пользователя\n" +
-                                            "6: вернуться назад\n" +
-                                            "7: выйти\n" +
-                                            "---------------------------------------";
+    private final static String USER_MENU = """
+            ---------------------------------------
+            1: создать нового пользователя
+            2: список всех пользователей
+            3: определенный пользователь
+            4: обновить информацию о пользователе
+            5: удалить пользователя
+            6: вернуться назад
+            7: выйти
+            ---------------------------------------""";
 
     public UserMenu(UserRepositoryImpl userRepository) {
         this.userRepository = userRepository;

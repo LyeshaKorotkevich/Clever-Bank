@@ -27,7 +27,7 @@ public class AccountRepositoryImpl implements AccountRepository {
             statement.setLong(3, account.getUserId());
             statement.setLong(4, account.getBankId());
             statement.setDate(5, Date.valueOf(account.getOpeningDate()));
-            statement.setString(6, account.getCurrency().toString());
+            statement.setObject(6, account.getCurrency().getCode(), Types.OTHER);
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -96,7 +96,7 @@ public class AccountRepositoryImpl implements AccountRepository {
             statement.setLong(3, account.getUserId());
             statement.setLong(4, account.getBankId());
             statement.setDate(5, Date.valueOf(account.getOpeningDate()));
-            statement.setString(6, account.getCurrency().toString());
+            statement.setObject(6, account.getCurrency().getCode(), Types.OTHER);
             statement.setLong(7, account.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

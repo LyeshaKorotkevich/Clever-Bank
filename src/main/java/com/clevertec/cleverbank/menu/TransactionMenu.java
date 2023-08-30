@@ -1,19 +1,18 @@
 package com.clevertec.cleverbank.menu;
 
-import com.clevertec.cleverbank.models.Bank;
+import com.clevertec.cleverbank.models.Transaction;
 import com.clevertec.cleverbank.repositories.TransactionRepositoryImpl;
 
 public class TransactionMenu extends Menu{
     private final TransactionRepositoryImpl transactionRepository;
-    private final static String TRANSACTION_MENU =  "---------------------------------------\n" +
-                                                    "1: создать новую транзакцию\n" +
-                                                    "2: список всех транзакций\n" +
-                                                    "3: определенная транзакция\n" +
-                                                    "4: обновить информацию о транзакции\n" +
-                                                    "5: удалить транзакцию\n" +
-                                                    "6: вернуться назад\n" +
-                                                    "7: выйти\n" +
-                                                    "---------------------------------------";
+    private final static String TRANSACTION_MENU = """
+            ---------------------------------------
+            1: список всех транзакций
+            2: определенная транзакция
+            3: удалить транзакцию
+            4: вернуться назад
+            5: выйти
+            ---------------------------------------""";
 
     public TransactionMenu(TransactionRepositoryImpl transactionRepository) {
         this.transactionRepository = transactionRepository;
@@ -24,27 +23,23 @@ public class TransactionMenu extends Menu{
         while (true) {
             printMenu(TRANSACTION_MENU);
             switch (scanner.nextInt()) {
-                case 1:
-                    Bank bank = new Bank();
-                    //bankRepository.createBank();
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-                case 5:
-
-                    break;
-                case 6:
-                    returnToPreviousMenu();
-                    break;
-                case 7:
-                    System.exit(0);
+                case 1 -> transactionRepository.getAllTransactions().forEach(System.out::println);
+                case 2 -> {
+                    System.out.println("Введите id транзакции для поиска:");
+                    System.out.println(transactionRepository.getTransactionById(scanner.nextLong()));
+                }
+                case 3 -> {
+                    System.out.println("Введите id транзакции для удаления:");
+                    Transaction transaction = transactionRepository.getTransactionById(scanner.nextLong());
+                    System.out.println(transaction);
+                    System.out.println("Удалять транзакцию(да/нет)");
+                    if(scanner.next().equals("да")) {
+                        transactionRepository.deleteTransaction(transaction.getId());
+                        System.out.println("Транзакция удалена");
+                    }
+                }
+                case 4 -> returnToPreviousMenu();
+                case 5 -> System.exit(0);
             }
         }
     }
