@@ -17,5 +17,5 @@ public interface TransactionService {
      * @param receiverAccountId id аккаунта-получателя.
      * @param amount Сумма транзакции.
      */
-    void createTransaction(TransactionType type, long senderAccountId, long receiverAccountId, BigDecimal amount);
+    void createTransaction(TransactionType type, Long senderAccountId, Long receiverAccountId, BigDecimal amount);
 }

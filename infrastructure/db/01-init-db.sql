@@ -15,7 +15,9 @@ CREATE TABLE banks (
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    full_name VARCHAR NOT NULL
+    surname VARCHAR NOT NULL
+    name VARCHAR NOT NULL
+    middle_name VARCHAR NOT NULL
 );
 
 -- Создание таблицы "accounts"

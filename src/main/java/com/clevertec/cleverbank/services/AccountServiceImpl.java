@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void transfer(long senderAccountId, long receiverAccountId, BigDecimal amount) {
+    public void transfer(Long senderAccountId, Long receiverAccountId, BigDecimal amount) {
         Account senderAccount = accountRepository.getAccountById(senderAccountId);
         Account receiverAccount = accountRepository.getAccountById(receiverAccountId);
 
@@ -62,6 +62,8 @@ public class AccountServiceImpl implements AccountService {
                 if (senderAccount.getBalance().compareTo(amount) >= 0) {
                     senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
                     receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
+                    accountRepository.updateAccount(senderAccount);
+                    accountRepository.updateAccount(receiverAccount);
                     transactionService.createTransaction(TransactionType.TRANSFER, senderAccountId, receiverAccountId, amount);
                 } else {
                     //throw new InsufficientBalanceException("Insufficient balance");

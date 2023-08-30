@@ -17,12 +17,12 @@ public interface BankRepository {
     void createBank(Bank bank);
 
     /**
-     * Получает банк по его id.
+     * Получает банк по его названию
      *
-     * @param bankId id банка.
+     * @param bankName название банка.
      * @return Объект Bank, представляющий найденный банк, или null, если банк не найден.
      */
-    Bank getBankById(long bankId);
+    Bank getBankByName(String bankName);
 
     /**
      * Получает список всех банков.
@@ -39,9 +39,9 @@ public interface BankRepository {
     void updateBank(Bank bank);
 
     /**
-     * Удаляет банк по его id.
+     * Удаляет банк по его названию.
      *
-     * @param bankId id банка для удаления.
+     * @param bankName название банка для удаления.
      */
-    void deleteBank(long bankId);
+    void deleteBank(String bankName);
 }

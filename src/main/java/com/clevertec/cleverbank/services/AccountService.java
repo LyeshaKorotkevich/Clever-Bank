@@ -30,5 +30,5 @@ public interface AccountService {
      * @param receiverAccountId id аккаунта-получателя.
      * @param amount            Сумма для перевода.
      */
-    void transfer(long senderAccountId, long receiverAccountId, BigDecimal amount);
+    void transfer(Long senderAccountId, Long receiverAccountId, BigDecimal amount);
 }

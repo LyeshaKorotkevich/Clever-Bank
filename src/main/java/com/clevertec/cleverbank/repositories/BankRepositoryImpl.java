@@ -28,10 +28,10 @@ public class BankRepositoryImpl implements BankRepository {
     }
 
     @Override
-    public Bank getBankById(long bankId) {
-        String sql = "SELECT id, name FROM banks WHERE id = ?";
+    public Bank getBankByName(String bankName) {
+        String sql = "SELECT id, name FROM banks WHERE name = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, bankId);
+            statement.setString(1, bankName);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return Bank.builder()
@@ -77,10 +77,10 @@ public class BankRepositoryImpl implements BankRepository {
     }
 
     @Override
-    public void deleteBank(long bankId) {
-        String sql = "DELETE FROM banks WHERE id = ?";
+    public void deleteBank(String bankName) {
+        String sql = "DELETE FROM banks WHERE name = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, bankId);
+            statement.setString(1, bankName);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -18,9 +18,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void createUser(User user) {
-        String sql = "INSERT INTO users (full_name) VALUES (?)";
+        String sql = "INSERT INTO users (surname, name, middle_name) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, user.getFullName());
+            statement.setString(1, user.getSurname());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getMiddleName());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -34,14 +36,16 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserById(long userId) {
-        String sql = "SELECT id, full_name FROM users WHERE id = ?";
+        String sql = "SELECT id, surname, name, middle_name FROM users WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
-                user.setFullName(resultSet.getString("full_name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setName(resultSet.getString("name"));
+                user.setMiddleName(resultSet.getString("middle_name"));
                 return user;
             }
         } catch (SQLException e) {
@@ -53,13 +57,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT id, full_name FROM users";
+        String sql = "SELECT id, surname, name, middle_name FROM users";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
-                user.setFullName(resultSet.getString("full_name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setName(resultSet.getString("name"));
+                user.setMiddleName(resultSet.getString("middle_name"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -70,10 +76,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        String sql = "UPDATE users SET full_name = ? WHERE id = ?";
+        String sql = "UPDATE users SET surname = ?, name = ?, middle_name = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, user.getFullName());
-            statement.setLong(2, user.getId());
+            statement.setString(1, user.getSurname());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getMiddleName());
+            statement.setLong(4, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
