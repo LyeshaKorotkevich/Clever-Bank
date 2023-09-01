@@ -28,6 +28,24 @@ public class BankRepositoryImpl implements BankRepository {
     }
 
     @Override
+    public Bank getBankById(Long bankId) {
+        String sql = "SELECT id, name FROM banks WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, bankId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return Bank.builder()
+                        .id(resultSet.getLong("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Если банк с указанным id не найден
+    }
+
+    @Override
     public Bank getBankByName(String bankName) {
         String sql = "SELECT id, name FROM banks WHERE name = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -42,7 +60,7 @@ public class BankRepositoryImpl implements BankRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Если банк с указанным ID не найден
+        return null; // Если банк с указанным именем не найден
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.clevertec.cleverbank.services;
 
+import com.clevertec.cleverbank.models.Transaction;
 import com.clevertec.cleverbank.models.TransactionType;
 
 import java.math.BigDecimal;
@@ -17,5 +18,5 @@ public interface TransactionService {
      * @param receiverAccountId id аккаунта-получателя.
      * @param amount Сумма транзакции.
      */
-    void createTransaction(TransactionType type, Long senderAccountId, Long receiverAccountId, BigDecimal amount);
+    Transaction createTransaction(TransactionType type, Long senderAccountId, Long receiverAccountId, BigDecimal amount);
 }
