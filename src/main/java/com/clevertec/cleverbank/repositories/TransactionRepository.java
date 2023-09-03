@@ -1,6 +1,7 @@
 package com.clevertec.cleverbank.repositories;
 
 import com.clevertec.cleverbank.models.Transaction;
+import com.clevertec.cleverbank.util.TimePeriod;
 
 import java.util.List;
 
@@ -23,6 +24,20 @@ public interface TransactionRepository {
      * @return Объект Transaction, представляющий найденную транзакцию, или null, если транзакция не найдена.
      */
     Transaction getTransactionById(long transactionId);
+
+    /**
+     * Получает список транзакций пользователя.
+     *
+     * @return Список транзакций.
+     */
+    List<Transaction> getTransactionsByUser(long userId);
+
+    /**
+     * Получает список транзакций пользователя за определенный период.
+     *
+     * @return Список транзакций.
+     */
+    List<Transaction> getTransactionsByPeriod(long userId, TimePeriod period);
 
     /**
      * Получает список всех транзакций.

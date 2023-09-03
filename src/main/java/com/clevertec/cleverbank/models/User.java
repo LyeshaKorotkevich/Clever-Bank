@@ -14,5 +14,9 @@ public class User {
     private String surname; // фамилия пользователя
     private String name; // имя пользователя
     private String middleName; // отчество пользователя
+
+    public String getFullName(){
+        return surname + " " + name + " " + middleName;
+    }
 }
 

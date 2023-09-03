@@ -1,8 +1,9 @@
 package com.clevertec.cleverbank.services;
 
 import com.clevertec.cleverbank.models.Account;
-import com.clevertec.cleverbank.repositories.AccountRepository;
 import com.clevertec.cleverbank.models.TransactionType;
+import com.clevertec.cleverbank.repositories.AccountRepositoryImpl;
+import com.clevertec.cleverbank.util.CheckGenerator;
 
 import java.math.BigDecimal;
 
@@ -10,14 +11,15 @@ import java.math.BigDecimal;
  * Реализация интерфейса AccountService для выполнения операций с аккаунтами.
  */
 public class AccountServiceImpl implements AccountService {
-    private final AccountRepository accountRepository;
+    private final AccountRepositoryImpl accountRepository;
     private final TransactionServiceImpl transactionService;
-    private final Object lock = new Object();
+    private final CheckGenerator checkGenerator;
 
 
-    public AccountServiceImpl(AccountRepository accountRepository, TransactionServiceImpl transactionService) {
+    public AccountServiceImpl(AccountRepositoryImpl accountRepository, TransactionServiceImpl transactionService, CheckGenerator checkGenerator) {
         this.accountRepository = accountRepository;
         this.transactionService = transactionService;
+        this.checkGenerator = checkGenerator;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
         if (account != null) {
             account.setBalance(account.getBalance().add(amount));
             accountRepository.updateAccount(account);
-            transactionService.createTransaction(TransactionType.DEPOSIT, accountId, accountId, amount);
+            checkGenerator.generateCheck(transactionService.createTransaction(TransactionType.DEPOSIT, accountId, accountId, amount));
         } else {
             //throw new AccountNotFoundException("Account not found");
         }
@@ -39,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
             if (account.getBalance().compareTo(amount) >= 0) {
                 account.setBalance(account.getBalance().subtract(amount));
                 accountRepository.updateAccount(account);
-                transactionService.createTransaction(TransactionType.WITHDRAW, accountId, accountId, amount);
+                checkGenerator.generateCheck(transactionService.createTransaction(TransactionType.WITHDRAW, accountId, accountId, amount));
             } else {
                 //throw new InsufficientBalanceException("Insufficient balance");
             }
@@ -64,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
                     receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
                     accountRepository.updateAccount(senderAccount);
                     accountRepository.updateAccount(receiverAccount);
-                    transactionService.createTransaction(TransactionType.TRANSFER, senderAccountId, receiverAccountId, amount);
+                    checkGenerator.generateCheck(transactionService.createTransaction(TransactionType.TRANSFER, senderAccountId, receiverAccountId, amount));
                 } else {
                     //throw new InsufficientBalanceException("Insufficient balance");
                 }

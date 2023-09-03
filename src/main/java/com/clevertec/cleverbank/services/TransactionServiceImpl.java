@@ -17,7 +17,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void createTransaction(TransactionType type, Long senderAccountId, Long receiverAccountId, BigDecimal amount) {
+    public Transaction createTransaction(TransactionType type, Long senderAccountId, Long receiverAccountId, BigDecimal amount) {
         Transaction transaction = new Transaction();
         transaction.setType(type);
 
@@ -32,5 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAmount(amount);
 
         transactionRepository.createTransaction(transaction);
+
+        return transaction;
     }
 }

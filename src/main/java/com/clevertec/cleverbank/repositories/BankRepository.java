@@ -17,6 +17,14 @@ public interface BankRepository {
     void createBank(Bank bank);
 
     /**
+     * Получает банк по его id
+     *
+     * @param bankId id банка.
+     * @return Объект Bank, представляющий найденный банк, или null, если банк не найден.
+     */
+    Bank getBankById(Long bankId);
+
+    /**
      * Получает банк по его названию
      *
      * @param bankName название банка.
