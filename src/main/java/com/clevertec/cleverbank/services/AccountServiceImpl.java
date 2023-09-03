@@ -4,12 +4,14 @@ import com.clevertec.cleverbank.models.Account;
 import com.clevertec.cleverbank.models.TransactionType;
 import com.clevertec.cleverbank.repositories.AccountRepositoryImpl;
 import com.clevertec.cleverbank.util.CheckGenerator;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 
 /**
  * Реализация интерфейса AccountService для выполнения операций с аккаунтами.
  */
+@Slf4j
 public class AccountServiceImpl implements AccountService {
     private final AccountRepositoryImpl accountRepository;
     private final TransactionServiceImpl transactionService;

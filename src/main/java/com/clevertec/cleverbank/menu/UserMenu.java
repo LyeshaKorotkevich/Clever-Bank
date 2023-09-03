@@ -3,6 +3,9 @@ package com.clevertec.cleverbank.menu;
 import com.clevertec.cleverbank.models.User;
 import com.clevertec.cleverbank.repositories.UserRepositoryImpl;
 
+/**
+ * Меню для работы с пользователями.
+ */
 public class UserMenu extends Menu{
     private final UserRepositoryImpl userRepository;
     private final static String USER_MENU = """

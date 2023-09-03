@@ -3,6 +3,9 @@ package com.clevertec.cleverbank.menu;
 import com.clevertec.cleverbank.models.Bank;
 import com.clevertec.cleverbank.repositories.BankRepositoryImpl;
 
+/**
+ * Меню для работы с банками.
+ */
 public class BankMenu extends Menu{
     private final BankRepositoryImpl bankRepository;
     private final static String BANK_MENU = """

@@ -6,6 +6,9 @@ import com.clevertec.cleverbank.repositories.AccountRepositoryImpl;
 import com.clevertec.cleverbank.repositories.BankRepositoryImpl;
 import com.clevertec.cleverbank.repositories.UserRepositoryImpl;
 
+/**
+ * Меню для работы со счетами.
+ */
 public class AccountMenu extends Menu{
     private final AccountRepositoryImpl accountRepository;
     private final BankRepositoryImpl bankRepository;

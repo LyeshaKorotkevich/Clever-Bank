@@ -9,6 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Класс CheckGenerator предназначен для генерации банковских чеков на основе транзакций в приложении CleverBank.
+ * Он создает текстовые файлы с информацией о каждой транзакции, включая ее тип, дату и время, участников транзакции,
+ * сумму и другие сведения.
+ */
 public class CheckGenerator {
     private static final String CHECKS_FOLDER = "check/";
     private final AccountRepositoryImpl accountRepository;
@@ -19,6 +24,11 @@ public class CheckGenerator {
         this.bankRepository = bankRepository;
     }
 
+    /**
+     * Метод generateCheck генерирует банковский чек на основе переданной транзакции и сохраняет его в текстовом файле.
+     *
+     * @param transaction Транзакция, для которой будет создан банковский чек.
+     */
     public void generateCheck(Transaction transaction) {
         String checkFileName = CHECKS_FOLDER + "check_" + transaction.getId() + ".txt";
 
@@ -26,7 +36,7 @@ public class CheckGenerator {
             writer.println("---------------------------------------");
             writer.println("|           Банковский чек            |");
             writer.printf("| Чек%32d |\n", transaction.getId());
-            writer.printf("| %s-%s-%s                  %s:%s:%s |\n", transaction.getTime().getDayOfMonth(), transaction.getTime().getMonth().getValue(), transaction.getTime().getYear(), transaction.getTime().getHour(), transaction.getTime().getMinute(), transaction.getTime().getSecond());
+            writer.printf("| %s-%s-%s                     %s:%s:%s |\n", transaction.getTime().getDayOfMonth(), transaction.getTime().getMonth().getValue(), transaction.getTime().getYear(), transaction.getTime().getHour(), transaction.getTime().getMinute(), transaction.getTime().getSecond());
             writer.printf("| Тип транзакции:%20s |\n", transaction.getType().getTranslate());
             if(transaction.getType() == TransactionType.DEPOSIT || transaction.getType() == TransactionType.WITHDRAW){
                 writer.printf("| Банк получателя:%19s |\n", bankRepository.getBankById(accountRepository.getAccountById(transaction.getReceiverAccountId()).getBankId()).getName());
