@@ -2,8 +2,10 @@ package com.clevertec.cleverbank.repositories;
 
 import com.clevertec.cleverbank.models.Transaction;
 import com.clevertec.cleverbank.models.TransactionType;
+import com.clevertec.cleverbank.util.TimePeriod;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,67 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             e.printStackTrace();
         }
         return null; // Если транзакция с указанным ID не найдена
+    }
+
+    @Override
+    public List<Transaction> getTransactionsByUser(long userId) {
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "SELECT id, sender_account_id, receiver_account_id, amount, time, transaction_type " +
+                "FROM transactions WHERE sender_account_id = ? OR receiver_account_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, userId);
+            statement.setLong(2, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setId(resultSet.getLong("id"));
+                transaction.setSenderAccountId(resultSet.getLong("sender_account_id"));
+                transaction.setReceiverAccountId(resultSet.getLong("receiver_account_id"));
+                transaction.setAmount(resultSet.getBigDecimal("amount"));
+                transaction.setTime(resultSet.getTimestamp("time").toLocalDateTime());
+                transaction.setType(TransactionType.valueOf(resultSet.getString("transaction_type")));
+                transactions.add(transaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
+    }
+
+    @Override
+    public List<Transaction> getTransactionsByPeriod(long userId, TimePeriod period) {
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "SELECT id, sender_account_id, receiver_account_id, amount, time, transaction_type " +
+                "FROM transactions WHERE (sender_account_id = ? OR receiver_account_id = ?) " +
+                "AND time >= ?";
+
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = switch (period) {
+            case YEAR -> endDate.minusYears(1);
+            case MONTH -> endDate.minusMonths(1);
+            default -> null;
+        };
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, userId);
+            statement.setLong(2, userId);
+            statement.setTimestamp(3, Timestamp.valueOf(startDate));
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setId(resultSet.getLong("id"));
+                transaction.setSenderAccountId(resultSet.getLong("sender_account_id"));
+                transaction.setReceiverAccountId(resultSet.getLong("receiver_account_id"));
+                transaction.setAmount(resultSet.getBigDecimal("amount"));
+                transaction.setTime(resultSet.getTimestamp("time").toLocalDateTime());
+                transaction.setType(TransactionType.valueOf(resultSet.getString("transaction_type")));
+                transactions.add(transaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
     }
 
     @Override

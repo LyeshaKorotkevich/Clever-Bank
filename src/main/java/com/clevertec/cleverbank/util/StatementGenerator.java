@@ -2,8 +2,8 @@ package com.clevertec.cleverbank.util;
 
 import com.clevertec.cleverbank.models.Account;
 import com.clevertec.cleverbank.models.Bank;
-import com.clevertec.cleverbank.repositories.AccountRepositoryImpl;
-import com.clevertec.cleverbank.repositories.BankRepositoryImpl;
+import com.clevertec.cleverbank.models.Transaction;
+import com.clevertec.cleverbank.repositories.TransactionRepositoryImpl;
 import com.clevertec.cleverbank.repositories.UserRepositoryImpl;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
@@ -14,42 +14,86 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 public class StatementGenerator {
 
     private static final String STATEMENTS_FOLDER = "statements/";
-    private final AccountRepositoryImpl accountRepository;
-    private final BankRepositoryImpl bankRepository;
     private final UserRepositoryImpl userRepository;
+    private final TransactionRepositoryImpl transactionRepository;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    public StatementGenerator(AccountRepositoryImpl accountRepository, BankRepositoryImpl bankRepository, UserRepositoryImpl userRepository) {
-        this.accountRepository = accountRepository;
-        this.bankRepository = bankRepository;
+    public StatementGenerator(UserRepositoryImpl userRepository, TransactionRepositoryImpl transactionRepository) {
         this.userRepository = userRepository;
+        this.transactionRepository = transactionRepository;
     }
 
-    public void generate(Bank bank, Account account) throws DocumentException, IOException {
-        String statement = generateStatement(bank, account);
+    public void generate(Bank bank, Account account, TimePeriod period) throws DocumentException, IOException {
+        String statement = generateStatement(bank, account, period);
         generatePdfStatement(statement, account);
         generateTxtStatement(statement, account);
     }
 
-    private String generateStatement(Bank bank, Account account) {
+    private String generateStatement(Bank bank, Account account, TimePeriod period) {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = switch (period){
+            case MONTH -> endDate.minusMonths(1);
+            case YEAR -> endDate.minusYears(1);
+            case ALL_TIME -> account.getOpeningDate();
+        };
+
+
+        String statement = "                       Выписка\n" +
+                "                       " + bank.getName() + "\n" +
+                "Клиент                    | " + userRepository.getUserById(account.getUserId()).getFullName() + "\n" +
+                "Счет                      | " + account.getAccountNumber() + "\n" +
+                "Валюта                    | " + account.getCurrency().getCode() + "\n" +
+                "Дата открытия             | " + dateFormat.format(Date.from(account.getOpeningDate().atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
+                "Период                    | \n" + dateFormat.format(Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + " - " + dateFormat.format(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
+                "Дата и время формирования | " + dateFormat.format(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
+                "Остаток                   | " + account.getBalance() + " " + account.getCurrency().getCode() + "\n" +
+                "  Дата     |     Примечание                     | Сумма\n" +
+                "--------------------------------------------------------------\n" +
+                generateTransactions(account, period);
+
+        return statement;
+    }
+
+    private String generateTransactions(Account account, TimePeriod period) {
         StringBuilder builder = new StringBuilder();
+        List<Transaction> transactions;
+        if(period == TimePeriod.ALL_TIME)
+            transactions = transactionRepository.getTransactionsByUser(account.getUserId());
+        else transactions = transactionRepository.getTransactionsByPeriod(account.getUserId(), period);
 
-        builder.append("                        Выписка\n");
-        builder.append("                       ").append(bank.getName()).append("\n");
-        builder.append("Клиент                    | ").append(userRepository.getUserById(account.getUserId()).getFullName()).append("\n");
-        builder.append("Счет                      | ").append(account.getAccountNumber()).append("\n");
-        builder.append("Валюта                    | ").append(account.getCurrency().getCode()).append("\n");
-        builder.append("Дата открытия             | ").append(account.getOpeningDate()).append("\n");
-        builder.append("Период                    | \n");
-        builder.append("Дата и время формирования | ").append(LocalDate.now()).append("\n");
-        builder.append("Остаток                   | ").append(account.getBalance()).append(" ").append(account.getCurrency().getCode()).append("\n");
-        builder.append("  Дата     |     Примечание                     | Сумма\n");
-        builder.append("---------------------------------------------------------\n");
-
-
+        for(Transaction transaction : transactions){
+            Date date = Date.from(transaction.getTime().atZone(ZoneId.systemDefault()).toInstant());
+            builder.append(dateFormat.format(date)).append(" | ");
+            switch (transaction.getType()){
+                case DEPOSIT ->
+                    builder.append("Пополнение баланса                 | ")
+                            .append(transaction.getAmount()).append(" ")
+                            .append(account.getCurrency().getCode());
+                case WITHDRAW ->
+                    builder.append("Снятие средств                     | ")
+                            .append("-").append(transaction.getAmount()).append(" ")
+                            .append(account.getCurrency().getCode());
+                case TRANSFER -> {
+                    if(transaction.getReceiverAccountId().equals(account.getUserId())){
+                        builder.append("Пополнение от ").append(String.format("%-21s", userRepository.getUserById(transaction.getSenderAccountId()).getSurname())).append("|")
+                                .append(transaction.getAmount()).append(" ")
+                                .append(account.getCurrency().getCode());
+                    } else {
+                        builder.append("Перевод ").append(String.format("%-27s", userRepository.getUserById(transaction.getReceiverAccountId()).getSurname())).append("|")
+                                .append("-").append(transaction.getAmount()).append(" ")
+                                .append(account.getCurrency().getCode());
+                    }
+                }
+            }
+            builder.append("\n");
+        }
         return builder.toString();
     }
 

@@ -7,6 +7,7 @@ import com.clevertec.cleverbank.services.AccountServiceImpl;
 import com.clevertec.cleverbank.services.TransactionServiceImpl;
 import com.clevertec.cleverbank.util.CheckGenerator;
 import com.clevertec.cleverbank.util.StatementGenerator;
+import com.clevertec.cleverbank.util.TimePeriod;
 import com.itextpdf.text.DocumentException;
 
 import java.io.FileNotFoundException;
@@ -75,9 +76,28 @@ public class MainMenu extends Menu{
                     Bank bank = bankRepository.getBankByName(scanner.next());
                     System.out.println("Введите id счета по которому будет сформирована выписка:");
                     Account account = accountRepository.getAccountById(scanner.nextLong());
-                    StatementGenerator statementGenerator = new StatementGenerator(accountRepository, bankRepository, userRepository);
+
+                    System.out.println("Выберите временной период:");
+                    System.out.println("1: За год");
+                    System.out.println("2: За месяц");
+                    System.out.println("3: За весь период");
+                    int periodChoice = scanner.nextInt();
+
+                    TimePeriod period;
+
+                    switch (periodChoice) {
+                        case 1 -> period = TimePeriod.YEAR;
+                        case 2 -> period = TimePeriod.MONTH;
+                        case 3 -> period = TimePeriod.ALL_TIME;
+                        default -> {
+                            System.out.println("Неверный выбор периода. Используйте значения 1, 2 или 3.");
+                            return;
+                        }
+                    }
+
+                    StatementGenerator statementGenerator = new StatementGenerator(userRepository, transactionRepository);
                     try {
-                        statementGenerator.generate(bank, account);
+                        statementGenerator.generate(bank, account, period);
                     } catch (DocumentException | FileNotFoundException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
