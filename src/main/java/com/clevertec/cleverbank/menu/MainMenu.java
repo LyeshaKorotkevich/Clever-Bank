@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * Главное меню программы.
+ */
 public class MainMenu extends Menu{
     private final UserRepositoryImpl userRepository;
     private final BankRepositoryImpl bankRepository;

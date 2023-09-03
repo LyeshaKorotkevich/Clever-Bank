@@ -21,13 +21,8 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
         transaction.setType(type);
 
-        if (type == TransactionType.DEPOSIT  || type == TransactionType.WITHDRAW) {
-            transaction.setReceiverAccountId(receiverAccountId);
-            transaction.setSenderAccountId(senderAccountId);
-        } else if (type == TransactionType.TRANSFER) {
-            transaction.setSenderAccountId(senderAccountId);
-            transaction.setReceiverAccountId(receiverAccountId);
-        }
+        transaction.setReceiverAccountId(receiverAccountId);
+        transaction.setSenderAccountId(senderAccountId);
 
         transaction.setAmount(amount);
 

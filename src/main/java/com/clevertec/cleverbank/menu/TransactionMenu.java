@@ -3,6 +3,9 @@ package com.clevertec.cleverbank.menu;
 import com.clevertec.cleverbank.models.Transaction;
 import com.clevertec.cleverbank.repositories.TransactionRepositoryImpl;
 
+/**
+ * Меню для работы с транзакциями.
+ */
 public class TransactionMenu extends Menu{
     private final TransactionRepositoryImpl transactionRepository;
     private final static String TRANSACTION_MENU = """

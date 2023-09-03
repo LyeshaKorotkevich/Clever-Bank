@@ -18,6 +18,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Класс StatementGenerator предназначен для генерации выписок по аккаунту в форматах PDF и TXT
+ * на основе данных банковского аккаунта и транзакций.
+ */
 public class StatementGenerator {
 
     private static final String STATEMENTS_FOLDER = "statements/";
@@ -30,12 +34,29 @@ public class StatementGenerator {
         this.transactionRepository = transactionRepository;
     }
 
+    /**
+     * Метод generate генерирует выписку по банковскому аккаунту в форматах PDF и TXT на основе заданного периода.
+     *
+     * @param bank    Банк, к которому принадлежит аккаунт.
+     * @param account Банковский аккаунт, для которого генерируется выписка.
+     * @param period  Временной период для выписки (год, месяц, весь период).
+     * @throws DocumentException Если произошла ошибка при создании PDF-документа.
+     * @throws IOException       Если произошла ошибка при создании TXT-файла.
+     */
     public void generate(Bank bank, Account account, TimePeriod period) throws DocumentException, IOException {
         String statement = generateStatement(bank, account, period);
         generatePdfStatement(statement, account);
         generateTxtStatement(statement, account);
     }
 
+    /**
+     * Генерирует строку с информацией для выписки по банковскому аккаунту в заданном формате.
+     *
+     * @param bank    Банк, к которому принадлежит аккаунт.
+     * @param account Банковский аккаунт, для которого генерируется выписка.
+     * @param period  Временной период для выписки (год, месяц, весь период).
+     * @return Сгенерированную строку с информацией для выписки.
+     */
     private String generateStatement(Bank bank, Account account, TimePeriod period) {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = switch (period){
@@ -51,7 +72,7 @@ public class StatementGenerator {
                 "Счет                      | " + account.getAccountNumber() + "\n" +
                 "Валюта                    | " + account.getCurrency().getCode() + "\n" +
                 "Дата открытия             | " + dateFormat.format(Date.from(account.getOpeningDate().atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
-                "Период                    | \n" + dateFormat.format(Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + " - " + dateFormat.format(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
+                "Период                    | " + dateFormat.format(Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + " - " + dateFormat.format(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
                 "Дата и время формирования | " + dateFormat.format(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant())) + "\n" +
                 "Остаток                   | " + account.getBalance() + " " + account.getCurrency().getCode() + "\n" +
                 "  Дата     |     Примечание                     | Сумма\n" +
@@ -61,6 +82,13 @@ public class StatementGenerator {
         return statement;
     }
 
+    /**
+     * Генерирует строку, представляющую информацию о транзакциях аккаунта за заданный временной период.
+     *
+     * @param account Банковский аккаунт, для которого генерируется информация о транзакциях.
+     * @param period  Временной период для фильтрации транзакций (год, месяц, весь период).
+     * @return Сгенерированную строку с информацией о транзакциях.
+     */
     private String generateTransactions(Account account, TimePeriod period) {
         StringBuilder builder = new StringBuilder();
         List<Transaction> transactions;
@@ -97,6 +125,14 @@ public class StatementGenerator {
         return builder.toString();
     }
 
+    /**
+     * Генерирует PDF-документ с выпиской на основе переданной строки с информацией о транзакциях.
+     *
+     * @param statement Строка с информацией о транзакциях для создания выписки.
+     * @param account   Банковский аккаунт, для которого генерируется выписка в формате PDF.
+     * @throws DocumentException         Если произошла ошибка при создании PDF-документа.
+     * @throws FileNotFoundException     Если файл PDF для выписки не найден.
+     */
     private void generatePdfStatement(String statement, Account account) throws DocumentException, FileNotFoundException {
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(STATEMENTS_FOLDER + "statement_" + account.getAccountNumber() + ".pdf"));
@@ -121,6 +157,13 @@ public class StatementGenerator {
         }
     }
 
+    /**
+     * Генерирует текстовый файл с выпиской на основе переданной строки с информацией о транзакциях.
+     *
+     * @param statement Строка с информацией о транзакциях для создания выписки в формате TXT.
+     * @param account   Банковский аккаунт, для которого генерируется выписка в формате TXT.
+     * @throws IOException Если произошла ошибка при создании текстового файла.
+     */
     private void generateTxtStatement(String statement, Account account) throws IOException {
         String txtFileName = STATEMENTS_FOLDER + "statement_" + account.getAccountNumber() + ".txt";
 
