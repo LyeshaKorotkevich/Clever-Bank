@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group 'org.clevertec'
+version '1.0-SNAPSHOT'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    runtimeOnly 'org.postgresql:postgresql:42.6.0'  // Зависимость для PostgreSQL
+    implementation 'javax.servlet:javax.servlet-api:4.0.1' // Зависимость для Servlet API
+    compileOnly 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0' // Зависимость для YAML файлов
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3' //Зависимость для PDF файлоы
+    // зависимости для логирования
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.7'
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.slf4j:slf4j-log4j12:2.0.7'
+}
+
+test {
+    useJUnitPlatform()
+}
