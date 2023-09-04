@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.clevertec.cleverbank.aop.MyAspect"/>
+    </aspects>
+    <weaver options="-verbose -showWeaveInfo">
+        <include within="com.clevertec.cleverbank..*"/>
+    </weaver>
+</aspectj>
