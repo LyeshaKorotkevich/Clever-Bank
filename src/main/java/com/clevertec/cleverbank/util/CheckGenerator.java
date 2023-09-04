@@ -26,7 +26,7 @@ public class CheckGenerator {
             writer.println("---------------------------------------");
             writer.println("|           Банковский чек            |");
             writer.printf("| Чек%32d |\n", transaction.getId());
-            writer.printf("| %s-%s-%s                  %s:%s:%s |\n", transaction.getTime().getDayOfMonth(), transaction.getTime().getMonth().getValue(), transaction.getTime().getYear(), transaction.getTime().getHour(), transaction.getTime().getMinute(), transaction.getTime().getSecond());
+            writer.printf("| %s-%s-%s                 %s:%s:%s |\n", transaction.getTime().getDayOfMonth(), transaction.getTime().getMonth().getValue(), transaction.getTime().getYear(), transaction.getTime().getHour(), transaction.getTime().getMinute(), transaction.getTime().getSecond());
             writer.printf("| Тип транзакции:%20s |\n", transaction.getType().getTranslate());
             if(transaction.getType() == TransactionType.DEPOSIT || transaction.getType() == TransactionType.WITHDRAW){
                 writer.printf("| Банк получателя:%19s |\n", bankRepository.getBankById(accountRepository.getAccountById(transaction.getReceiverAccountId()).getBankId()).getName());
